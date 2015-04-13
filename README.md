@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # batoo(working title)
 
 This is a mobile game that aims to use a game to cultivate children's healthier and more environmental habits.
@@ -17,3 +18,7 @@ The game itself is an open-world eco-system building game. However, the resource
 =======
 # diva_appmaster
 >>>>>>> bc0c16c611839851ade8bdd83d0f77ea9c10b390
+=======
+# eco_eco
+This is a readme file for Eco_eco
+>>>>>>> b35e4f96aae4ef660a778485cb273ec8dd91cde9
