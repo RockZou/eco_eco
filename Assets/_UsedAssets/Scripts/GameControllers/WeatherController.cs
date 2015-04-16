@@ -24,14 +24,17 @@ public class WeatherController : MonoBehaviour {
 		
 		//		rainStatus = PlayerPrefs.GetInt (weatherObject.name);
 
-		isRaining = true;
+		isRaining = false;
 		isSnowing = false;
 
-
-		if (rain == null)
+		if (rain == null) {
+			Debug.Log("rain is null");
 			rain = GameObject.Find ("MainCamera/WeatherController/Rain");
-		if (snow == null)
+		}
+		if (snow == null) {
+			Debug.Log("snow is null");
 			snow = GameObject.Find ("MainCamera/WeatherController/Snow");
+		}
 
 	}
 
@@ -43,17 +46,18 @@ public class WeatherController : MonoBehaviour {
 
 	public void toggleWeather(GameObject weatherObject){
 
+		WeatherBehavior weatherBehavior = weatherObject.GetComponent<WeatherBehavior> ();
 		Debug.Log ("toggleWeather Called");
-
-		if (weatherObject == rain) {
-			Debug.Log("Passed object is rain");
-			rain.GetComponent<WeatherBehavior>().toggle();
-		}
-		
-		if (weatherObject == snow) {
-			Debug.Log("Passed object is snow");
-			snow.GetComponent<WeatherBehavior>().toggle();
-		}
+		weatherBehavior.toggle ();
+//		if (weatherObject == rain) {
+//			Debug.Log("Passed object is rain");
+//			weatherObject.GetComponent<>().toggle();
+//		}
+//		
+//		if (weatherObject == snow) {
+//			Debug.Log("Passed object is snow");
+//			snow.GetComponent<WeatherBehavior>().toggle();
+//		}
 	}
 
 }

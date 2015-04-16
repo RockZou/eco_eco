@@ -3,11 +3,19 @@ using System.Collections;
 
 public class WeatherBehavior: MonoBehaviour {
 
-	GameObject weatherObject;
+	private GameObject weatherObject;
 
+
+	void Awake(){
+		
+		weatherObject = this.gameObject;
+		Debug.Log ("WeahterBehavior " + weatherObject.name + "Awake is called");
+	}
 	// Use this for initialization
 	void Start () {
-		weatherObject = this.gameObject;
+
+		
+		Debug.Log ("WeahterBehavior " + weatherObject.name + "Start is called");
 	}
 	
 	// Update is called once per frame
@@ -22,7 +30,8 @@ public class WeatherBehavior: MonoBehaviour {
 
 	public void toggle()
 	{
-		weatherObject.SetActive (!weatherObject.activeInHierarchy);
+		Debug.Log ("WeatherBehavior for "+ weatherObject.name + " toggle is called");
+		weatherObject.SetActive (!weatherObject.activeSelf);
 	}
 	
 	public bool isOn()
