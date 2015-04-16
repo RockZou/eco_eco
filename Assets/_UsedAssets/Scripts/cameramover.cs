@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 // This class controlls the movement for the camera.
-public class cameramover : MonoBehaviour {
+public class CameraMover : MonoBehaviour {
 
 
 	public float speed = 100f;

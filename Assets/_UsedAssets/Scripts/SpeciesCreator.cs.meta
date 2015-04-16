@@ -1,8 +1,14 @@
 fileFormatVersion: 2
 guid: f56f497cbee0856439390a72dae73d60
+timeCreated: 1429112065
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - animalPrefab: {fileID: 100000, guid: 4ac1a66b4528d432f8cd87cc549d3a17, type: 3}
+  - treePrefab: {fileID: 100000, guid: f181dbe2d8c5348e3bd7fdc52ad68866, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 
