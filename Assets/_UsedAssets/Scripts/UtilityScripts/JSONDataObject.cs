@@ -16,7 +16,7 @@ public class JSONDataObject : MonoBehaviour {
 	public void Start(){
 //		authButton = GameObject.Find ("AuthButton").GetComponent<Button>();
 //		apiButton = GameObject.Find ("APIButton").GetComponent<Button>();
-//		displayText = GameObject.Find("DisplayText").GetComponent<Text>();
+		displayText = GameObject.Find("DisplayText").GetComponent<Text>();
 //		displayText.text = "This is the Original Text";
 	}
 

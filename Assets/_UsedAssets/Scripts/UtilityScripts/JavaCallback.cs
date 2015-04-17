@@ -35,7 +35,7 @@ public class JavaCallback : MonoBehaviour {
 //		onReturnImageKeyword (temp_string);
 	}
 
-	void onActivityResult(string theString){
+	void onMovesAuthResult(string theString){
 		Debug.Log ("onActivityResult in Unity is Called: "+theString);
 
 		///?code=h4MjiL7u785Ysp_Z0_9aYGrXwHmJEIP0hI5n1rBAbdMwi2p1M3zvISp96z_99ToG&state=88725247
@@ -54,7 +54,7 @@ public class JavaCallback : MonoBehaviour {
 		//api.GetComponent<APIRequests>().callGetToken ();
 	}
 
-	void onImageResult(){
+	void onImageResult(string placeHolder){
 		Debug.Log ("JavaCallback onImageResult called");
 	}
 

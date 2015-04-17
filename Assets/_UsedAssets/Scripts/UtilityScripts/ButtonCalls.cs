@@ -78,10 +78,11 @@ public class ButtonCalls : MonoBehaviour {
 
 	
 	IEnumerator getDataForChallenge(){
-		Debug.Log ("Button Event getDataForQuest called");
+		Debug.Log ("Button Event getDataForChallenge called");
 		
 		string ACCESS_TOKEN = PlayerPrefs.GetString ("ACCESS_TOKEN");
 		if (ACCESS_TOKEN == "") {
+			Debug.Log("Button Event getDataForChallenge No Access Token in PlayerPrefs");
 			doRequestMovesAuthInApp();
 			
 			yield return new WaitForSeconds(2);
@@ -96,7 +97,7 @@ public class ButtonCalls : MonoBehaviour {
 	}
 	
 	IEnumerator timedAPICalls(){
-		Debug.Log("ButtonEvent timedAPICalls called");
+		Debug.Log("ButtonCalls timedAPICalls called");
 		
 		while (!ChallengeFinished) {
 			getMovesAPIData ();
