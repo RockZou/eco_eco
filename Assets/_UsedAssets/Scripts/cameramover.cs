@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class CameraMover : MonoBehaviour {
 
 
-	public float speed = 100f;
+	public float speed;
+	public 
 	// Use this for initialization
 	void Start () {
 	
@@ -16,11 +17,11 @@ public class CameraMover : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		float boost = 1.5f;
+		float boost = 1.0f;
 		if (Input.GetKey (KeyCode.LeftShift)){
 			boost = 3.0f;
 		} else {
-			boost = 1.5f;
+			boost = 1.0f;
 		}
 
 		// Maps WASD to move the camera.
