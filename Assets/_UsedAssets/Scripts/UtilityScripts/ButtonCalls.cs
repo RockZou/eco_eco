@@ -9,11 +9,11 @@ public class ButtonCalls : MonoBehaviour {
 	/*
 	 *This field should be a reference to a Challenge Object
 	 */
-	public bool ChallengeFinished = true;
+	public bool ChallengeFinished = false;
 
 	APIRequests APIObj;
 	JSONDataObject jsonDataObj;
-	public void Start(){
+	public void Awake(){
 		APIObj = GameObject.Find ("APIRequests").GetComponent<APIRequests> ();
 		jsonDataObj = GameObject.Find ("JSONDataObject").GetComponent<JSONDataObject> ();
 	}
@@ -21,9 +21,10 @@ public class ButtonCalls : MonoBehaviour {
 	public void doRequestMovesAuthInApp()
 	{
 		Debug.Log("Button is Clicked!");
-
+//		if (APIRequests.ACCESS_TOKEN=="")
+			Bridge.doRequestMovesAuthInApp ();
+		
 		//Bridge.ShowCamera (12345);
-		Bridge.doRequestMovesAuthInApp ();
 	}
 
 	public void getMovesAPIData(){
@@ -49,7 +50,7 @@ public class ButtonCalls : MonoBehaviour {
 		 * This is a place holder for changing the ChallengeFinshied Variable for Challenge Objects
 		 */ 
 
-		ChallengeFinished = !ChallengeFinished;
+		//ChallengeFinished = !ChallengeFinished;
 	}
 
 	public void startWaterBottleChallenge(){
@@ -99,7 +100,8 @@ public class ButtonCalls : MonoBehaviour {
 	IEnumerator timedAPICalls(){
 		Debug.Log("ButtonCalls timedAPICalls called");
 		
-		while (!ChallengeFinished) {
+		while (true) {
+			Debug.Log("inside while");
 			getMovesAPIData ();
 			yield return new WaitForSeconds (APIInterval);
 		}

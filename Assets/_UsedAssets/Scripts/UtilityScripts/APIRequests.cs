@@ -21,28 +21,16 @@ public class APIRequests : MonoBehaviour {
 	public static string CLIENT_SECRET = "uXeALhVX4zefkW7j73tVMtKE35R0777z8XmK14yaOp91sE41XrvcWfx5q9N9evvc";
 	public static string CODE="";
 	public static string REDIRECT_URI = "/";
-	
-	public string dateString = "20151010";
 
-	//UI Elements
-	public Button authButton;
-	public Button apiButton;
-	public Text displayText;
+	public DateClass dateObj;
+	public string dateString = "20151010";
 
 	JSONDataObject jsonDataObj;
 	public SimpleJSON.JSONNode JSONData;
 
 
-	public void Start(){
-		Debug.Log ("starting in APIRequests");
-
-//		authButton = GameObject.Find ("AuthButton").GetComponent<Button>();
-//		apiButton = GameObject.Find ("APIButton").GetComponent<Button>();
-//		displayText = GameObject.Find("DisplayText").GetComponent<Text>();
-
-
-		jsonDataObj = GameObject.Find ("JSONDataObject").GetComponent<JSONDataObject> ();
-		JSONData = jsonDataObj.JSONData;
+	public void Awake(){
+		Debug.Log ("APIRequests Awake called");
 
 		if (PlayerPrefs.GetString("CLIENT_ID")=="")
 			PlayerPrefs.SetString("CLIENT_ID",CLIENT_ID);
@@ -50,7 +38,16 @@ public class APIRequests : MonoBehaviour {
 		if (PlayerPrefs.GetString("CLIENT_SECRET")=="")
 			PlayerPrefs.SetString("CLIENT_SECRET",CLIENT_SECRET);
 
-		Debug.Log ("end of start in APIRequests");
+	}
+
+	public void Start(){
+		
+		Debug.Log ("APIRequests Start called");
+		
+		jsonDataObj = GameObject.Find ("JSONDataObject").GetComponent<JSONDataObject> ();
+		JSONData = jsonDataObj.JSONData;
+
+		dateObj = GameObject.Find ("DateObject").GetComponent<DateClass> ();
 	}
 
 	public void callGetData(){
@@ -65,7 +62,7 @@ public class APIRequests : MonoBehaviour {
 	}
 
 	IEnumerator getData(){
-
+		Debug.Log ("APIRequests getData called");
 		string api = getAPIString ();
 
 		WWW request = new WWW(api);
@@ -97,6 +94,8 @@ public class APIRequests : MonoBehaviour {
 	public string getAPIString(){
 		if (ACCESS_TOKEN == "")
 		ACCESS_TOKEN = PlayerPrefs.GetString ("ACCESS_TOKEN");
+
+		dateString = dateObj.getCurrentDateString ();
 		return apiURL + dateString + "?access_token=" + ACCESS_TOKEN;
 	}
 
@@ -121,6 +120,7 @@ public class APIRequests : MonoBehaviour {
 			Debug.Log(w.text);
 			storeToken(w);
 		}
+
 	}
 
 	public string getAuthString(){
