@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: bc823b965cc02564fbfdf95985a7d1af
+labels:
+- http
+- www
+- web
+- cache
+- stream
+- WP8
+- rest
+- websocket
+- socket
+- socket.io
+- websockets
+- cookie
+- proxy
+- ios
+- android
+- wp8
+- tcp
+- https
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

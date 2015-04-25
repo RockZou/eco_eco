@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: d80bfb58318c39c40b9f629c14aa3eef
+labels:
+- http
+- www
+- web
+- cache
+- stream
+- WP8
+- rest
+- websocket
+- socket
+- socket.io
+- websockets
+- cookie
+- proxy
+- ios
+- android
+- wp8
+- tcp
+- https
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

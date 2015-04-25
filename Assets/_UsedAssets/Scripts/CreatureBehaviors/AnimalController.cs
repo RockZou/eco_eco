@@ -43,7 +43,7 @@ public class AnimalController : MonoBehaviour {
 
 	void FixedUpdate () {
 		
-		Vector3 seaPositions = theOcean.GetComponent<Transform>().position;
+//		Vector3 seaPositions = theOcean.GetComponent<Transform>().position;
 
 		Ray cursorRay = Camera.main.ScreenPointToRay( Input.mousePosition);
 		RaycastHit cursorRayInfo = new RaycastHit();

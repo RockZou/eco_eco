@@ -15,13 +15,13 @@ public class JavaCallback : MonoBehaviour {
  */
 
 	//Water Bottle Testing String -- Fail
-	string temp_string_water_fail = "{\"status\": \"completed\",\"name\": \"arwa bottled water\"}";
+//	string temp_string_water_fail = "{\"status\": \"completed\",\"name\": \"arwa bottled water\"}";
 	
 	//Water Bottle Testing String -- Success
 	string temp_string_water_success = "{\"status\": \"completed\",\"name\": \"gray and black adidas sports bottle\"}";
 
 	//AC testing string
-	string temp_string = "{\"status\": \"completed\",\"name\": \"white digital ac monitor\"}";
+//	string temp_string = "{\"status\": \"completed\",\"name\": \"white digital ac monitor\"}";
 
 	string[] wordsListForName;
 

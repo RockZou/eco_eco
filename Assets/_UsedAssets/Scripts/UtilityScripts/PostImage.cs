@@ -1,0 +1,139 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using BestHTTP;
+using System.Text;
+using SimpleJSON;
+using UnityEngine.UI;
+
+public class PostImage:MonoBehaviour{
+
+	public string CloudSightApiUrl = "https://api.cloudsightapi.com/image_requests";
+	
+	public string CloudSightAPIkey = "eDdEhEKOVJznJRlx-qXwiA";
+	public string CloudSightResponseUrl = "http://api.cloudsightapi.com/image_responses/";
+
+	JSONNode N;
+	Text displayText;
+	Text DebugText;
+	CamDisplay camDisplay;
+
+	bool inProgress;
+
+	// Use this for initialization
+	void Start () {
+		displayText = GameObject.Find ("DisplayText").GetComponent<Text> ();
+		DebugText = GameObject.Find ("DebugText").GetComponent<Text>();
+		camDisplay = GameObject.Find("CameraRawImage").GetComponent<CamDisplay>();
+
+		inProgress = false;
+		//sendImageToCloudSight ();
+	}
+
+	public void sendImageToCloudSight(){
+		DebugText.text += " sendImageToCloudSight called";
+
+		if (!inProgress) {
+			DebugText.text += " inProgress is false, starting uploadPNG coroutine";
+			inProgress = true;
+			StartCoroutine (UploadPNG ());
+		} else {
+			displayText.text = "an image is being processed! Patience...";
+			Debug.Log("an image is being processed!");
+		}
+	}
+	
+	IEnumerator UploadPNG() {
+		// We should only read the screen after all rendering is complete
+		yield return new WaitForEndOfFrame();
+
+		
+		DebugText.text += " UploadPNG is called";
+
+		var tex = new Texture2D (1280,720);
+
+		WWW testImage = new WWW("file://"+Application.persistentDataPath+'/'+"test_image.png");
+
+		yield return testImage;
+
+		
+		DebugText.text += " www object testImage is returned!";
+
+		Debug.Log ("the image file info is "+testImage.text);
+
+		
+		DebugText.text += " the image file info is" +testImage.text;
+
+		testImage.LoadImageIntoTexture (tex);
+
+		Debug.Log ("sending the image to the server...");
+		var request = new HTTPRequest(new System.Uri(CloudSightApiUrl), HTTPMethods.Post, OnRequestFinished);
+											request.SetHeader("Authorization", "CloudSight " + CloudSightAPIkey);
+											request.AddBinaryData("image_request[image]",tex.EncodeToPNG(),"test_image.png");
+											request.AddField ("image_request[locale]", "en_US");
+		                                      request.Send();
+	}
+
+	public void OnRequestFinished(HTTPRequest request, HTTPResponse response)
+	{
+		Debug.Log("Request Finished! Text received: " + response.DataAsText);
+		
+		string responseString = response.DataAsText;
+
+		N = SimpleJSON.JSON.Parse (responseString);
+
+		string CloudSightToken = N["token"];
+
+		StartCoroutine(GetImageInfo(CloudSightToken));
+	}
+
+	IEnumerator GetImageInfo(string CloudSightToken) {
+		var theImageInfo = new HTTPRequest(new System.Uri(CloudSightResponseUrl+CloudSightToken), HTTPMethods.Get, onGetImageInfo);
+		theImageInfo.SetHeader("Authorization", "CloudSight " + CloudSightAPIkey);
+		theImageInfo.Send();
+		yield return StartCoroutine(theImageInfo);
+		
+		string responseString = theImageInfo.Response.DataAsText;
+		
+		N = SimpleJSON.JSON.Parse (responseString);
+		
+		Debug.Log(N["status"]);
+		displayText.text = "The Status is " + N ["status"];
+		string statusString = N["status"];
+		Debug.Log ("before while");
+		while (statusString!="completed") {
+
+			theImageInfo = new HTTPRequest(new System.Uri(CloudSightResponseUrl+CloudSightToken), HTTPMethods.Get, onGetImageInfo);
+			theImageInfo.SetHeader("Authorization", "CloudSight " + CloudSightAPIkey);
+			theImageInfo.Send();
+			yield return StartCoroutine(theImageInfo);
+
+			Debug.Log("inside while ");
+			statusString = N["status"];
+			Debug.Log("status is "+ statusString);
+			
+			if (statusString=="skipped")
+			{
+				displayText.text = "image is skipped because " + N["reason"];
+				return false;
+			}
+		}
+		camDisplay.GetComponent<RawImage>().texture= camDisplay.cam;
+
+		inProgress = false;
+		Debug.Log ("after while");
+		displayText.text = "The description is " + N["name"];
+
+	}
+
+	void onGetImageInfo(HTTPRequest request, HTTPResponse response){
+		Debug.Log("Image Info is back! Text received: " + response.DataAsText);
+		
+		string responseString = response.DataAsText;
+		
+		N = SimpleJSON.JSON.Parse (responseString);
+	}
+
+}
