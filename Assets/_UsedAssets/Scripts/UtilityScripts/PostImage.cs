@@ -139,7 +139,7 @@ public class PostImage:MonoBehaviour{
 
 		if (statusString == "completed") {
 			Debug.Log ("N['status'] is completed");
-			jsonImageKeywordsObj.onReturnImageKeyword (N ["name"].ToString ());
+			jsonImageKeywordsObj.onReturnImageKeyword (N ["name"]);
 		} else {
 			Debug.Log("Image recognition is skipped because it's" + N["reason"]+ "challenge is not verified.");
 		}

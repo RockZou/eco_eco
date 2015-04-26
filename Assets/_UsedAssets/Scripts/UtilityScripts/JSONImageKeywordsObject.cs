@@ -28,15 +28,13 @@ public class JSONImageKeywordsObject : MonoBehaviour {
 	
 	public string[] getWordsList(string nameString){
 
-		nameString.Replace ("\"","");
-
 		string[] theWordsList = nameString.Split (' ');
 		
 		Debug.Log ("This is nameString: " + nameString);
-		for (int i =0;i<theWordsList.Length; i++)
-			Debug.Log ("This is the wordsList: " + theWordsList[0]);
-			Debug.Log ("This is the wordsList: " + theWordsList[1]);
-		
+
+		for (int i =0; i<theWordsList.Length; i++)
+			Debug.Log ("This is the wordsList: " + theWordsList [i]);
+
 		return theWordsList;
 	}
 
