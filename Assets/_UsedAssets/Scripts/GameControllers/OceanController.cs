@@ -7,13 +7,15 @@ public class OceanController : MonoBehaviour {
 	Vector3 targetSeaLevel;
 	
 	Vector3 highestSeaLevel;
+	public float maxSea;
+	public GameObject oceanLayer;
 	
 	float risingSpeed=0.1f;
 	
 	// Use this for initialization
 	void Start () {
 		targetSeaLevel = transform.position;
-		targetSeaLevel.y = 170;
+		targetSeaLevel.y = maxSea;
 		
 		highestSeaLevel = targetSeaLevel;
 	}
@@ -23,7 +25,10 @@ public class OceanController : MonoBehaviour {
 		
 		if (targetSeaLevel.y<highestSeaLevel.y)
 			targetSeaLevel += new Vector3 (0, risingSpeed, 0);
-		
+
+		oceanLayer.transform.position = new Vector3(oceanLayer.transform.position.x,
+		                                            targetSeaLevel.y + 1f,
+		                                            oceanLayer.transform.position.z);
 		seaLevelUpdate (); 
 	}
 	
