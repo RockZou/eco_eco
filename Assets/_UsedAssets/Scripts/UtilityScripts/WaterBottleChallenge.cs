@@ -14,11 +14,11 @@ public class WaterBottleChallenge : MonoBehaviour {
 	public GameObject ImageRecognitionModal_Waiting;
 	public GameObject ImageRecognitionModal_ChallengeComplete;
 
-	public Text CoconutText;
+	public GameObject CoconutText;
 
 	public string[] waterBottleDictionary = new string[] {"bottle","steel","metal","thermos","tumbler", "proof", "spill","sports","adidas"};
 
-	public string[] bottledWaterDictionary = new string[] {"bottled","drinking","al","ain","arwa","aquafina","dasani",
+	public string[] bottledWaterDictionary = new string[] {"bottled","clear","drinking","al","ain","arwa","aquafina","dasani",
 															"evian","nestle","oasis","putrified","volvic","voss"};
 
 	public int status;
@@ -45,7 +45,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 			for (int j=0; j<bottledWaterDictionary.Length; j++) {
 				if(wordsList[i]== bottledWaterDictionary[j])
 				{
-					Debug.Log("the challenge is failed because" + wordsList[i]);
+					Debug.Log("the challenge is failed because " + wordsList[i]);
 					onFailChallenge();
 					return 0;//failed
 				}
@@ -55,12 +55,13 @@ public class WaterBottleChallenge : MonoBehaviour {
 			for (int j=0; j<waterBottleDictionary.Length; j++) {
 				if(wordsList[i]==waterBottleDictionary[j])
 				{
-					Debug.Log("the challenge succeeded because" + wordsList[i]);
+					Debug.Log("the challenge succeeded because " + wordsList[i]);
 					onCompleteChallenge();
 					return 1;//succeeded
 				}
 		}
 
+		onRetryChallenge ();
 		return -1;//undecided
 	}
 
@@ -68,9 +69,12 @@ public class WaterBottleChallenge : MonoBehaviour {
 		status = STARTED;
 	}
 
+	public void onRetryChallenge(){
+		ImageRecognitionModal_Waiting.SetActive (false);
+	}
+
 	public void onCompleteChallenge(){
 		status = SUCCESS;
-
 
 		ImageRecognitionModal_Waiting.SetActive (false);
 		ImageRecognitionModal_ChallengeComplete.SetActive (true);
@@ -91,16 +95,19 @@ public class WaterBottleChallenge : MonoBehaviour {
 		/*
 		 * Do the money stuff here 
 		 */
-		CoconutText.text = "400";
+		
+		CoconutText.GetComponent<CoconutNumber>().add (300);
 		Debug.Log ("This is doing the money changing stuff.");
 	}
 
 	public void onFailChallenge(){
+		Debug.Log ("WaterBottleChallenge onFailChallenge is called");
 		status = FAILED;
 		ImageRecognitionModal_Waiting.SetActive (false);
 
-		CoconutText.text = "90";
+		CoconutText.GetComponent<CoconutNumber>().sub (10);
 
+		ImageRecognitionModal_TakePicture.SetActive (false);
 		Debug.Log ("WaterBottleChallenge onFailChallenge called!");
 	}
 }
