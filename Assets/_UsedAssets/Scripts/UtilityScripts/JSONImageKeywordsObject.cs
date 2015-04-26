@@ -18,6 +18,24 @@ public class JSONImageKeywordsObject : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	public void onReturnImageKeyword(string nameString){
+		
+		wordsListForName = getWordsList (nameString);
+		
+		wordsListForName = this.wordsListForName;
+		verifyChallenges ();
+	}
+	
+	public string[] getWordsList(string nameString){
+		string[] theWordsList = nameString.Split (' ');
+		
+		Debug.Log ("This is nameString: " + nameString);
+		for (int i =0;i<theWordsList.Length; i++)
+			Debug.Log ("This is the wordsList: " + theWordsList[0]+ " "+ theWordsList[1]);
+		
+		return theWordsList;
+	}
 
 	public void verifyChallenges(){
 

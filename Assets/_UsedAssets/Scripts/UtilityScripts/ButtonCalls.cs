@@ -11,25 +11,27 @@ public class ButtonCalls : MonoBehaviour {
 	 */
 	public bool ChallengeFinished = false;
 
-	APIRequests APIObj;
+	public PostImage postImage;
+	MovesAPIRequests movesAPIObj;
 	JSONDataObject jsonDataObj;
+
 	public void Awake(){
-		APIObj = GameObject.Find ("APIRequests").GetComponent<APIRequests> ();
+		movesAPIObj = GameObject.Find ("MovesAPIRequests").GetComponent<MovesAPIRequests> ();
 		jsonDataObj = GameObject.Find ("JSONDataObject").GetComponent<JSONDataObject> ();
+
 	}
 
 	public void doRequestMovesAuthInApp()
 	{
 		Debug.Log("Button is Clicked!");
 //		if (APIRequests.ACCESS_TOKEN=="")
-			Bridge.doRequestMovesAuthInApp ();
-		
+		Bridge.doRequestMovesAuthInApp ();
 		//Bridge.ShowCamera (12345);
 	}
 
 	public void getMovesAPIData(){
 		Debug.Log ("getMovesAPIData called");
-		APIObj.callGetData ();
+		movesAPIObj.callGetData ();
 	}
 
 
@@ -53,42 +55,26 @@ public class ButtonCalls : MonoBehaviour {
 		//ChallengeFinished = !ChallengeFinished;
 	}
 
-	public void startWaterBottleChallenge(){
+	public void startChallenge(WaterBottleChallenge waterBottleChallenge){
 
 		//Bridge.startCloudSight ();
 
-		WaterBottleChallenge waterBottleChallenge = GameObject.Find ("WaterBottleChallenge").GetComponent<WaterBottleChallenge>();
+		waterBottleChallenge = GameObject.Find ("WaterBottleChallenge").GetComponent<WaterBottleChallenge>();
 		waterBottleChallenge.onStartChallenge ();
 
-		/*
-		 * This "short-circuit" the Java lib to directly call JavaCallback
-		 * In production version, this JavaCallback function should only be called from java lib
-		 */
-		JavaCallback javaCallback = GameObject.Find("JavaCallback").GetComponent<JavaCallback>();
-		
-		string temp_string = "{\"status\": \"completed\",\"name\": \"white digital ac monitor\"}";
-		//Water Bottle Testing String -- Fail
-		string temp_string_water_fail = "{\"status\": \"completed\",\"name\": \"arwa bottled water\"}";
-
-		string temp_string_water_success = "{\"status\": \"completed\",\"name\": \"gray and black adidas sports bottle\"}";
-	
-
-		javaCallback.onReturnImageKeyword (temp_string_water_success);
 	}
 
-
-	
 	IEnumerator getDataForChallenge(){
 		Debug.Log ("Button Event getDataForChallenge called");
 		
-		string ACCESS_TOKEN = PlayerPrefs.GetString ("ACCESS_TOKEN");
-		if (ACCESS_TOKEN == "") {
+		string MOVES_ACCESS_TOKEN = PlayerPrefs.GetString ("MOVES_ACCESS_TOKEN");
+		if (MOVES_ACCESS_TOKEN == "") {
 			Debug.Log("Button Event getDataForChallenge No Access Token in PlayerPrefs");
 			doRequestMovesAuthInApp();
 			
 			yield return new WaitForSeconds(2);
 			
-			while (PlayerPrefs.GetString("ACCESS_TOKEN")==""){}// IMPERFECT WAY TO YIELD
+			while (PlayerPrefs.GetString("MOVES_ACCESS_TOKEN")==""){}// IMPERFECT WAY TO YIELD
 			
 			getMovesAPIData();
 		} else {
@@ -109,18 +95,5 @@ public class ButtonCalls : MonoBehaviour {
 		// need to design a flag mechanism to turn off the calls and exit the function.
 	}
 
-
-	public void completeWaterBottleChallenge(){
-
-		JavaCallback javaCallback = GameObject.Find("JavaCallback").GetComponent<JavaCallback>();
-		//Water Bottle Testing String -- Success
-		string temp_string_water_success = "{\"status\": \"completed\",\"name\": \"gray and black adidas sports bottle\"}";
-
-		javaCallback.onReturnImageKeyword (temp_string_water_success);
-	}
-
-	public void doSomethingWithData(){
-		jsonDataObj.doSomethingWithData ();
-	}
 
 }

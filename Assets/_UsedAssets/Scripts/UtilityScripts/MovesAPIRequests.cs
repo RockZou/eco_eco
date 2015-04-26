@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine.UI;
 
-public class APIRequests : MonoBehaviour {
+public class MovesAPIRequests : MonoBehaviour {
 
 	//public APIInfo apiInfo;
 
 	public string screenShotURL= "http://www.my-server.com/cgi-bin/screenshot.pl";
 		
-	private static string authURL = "https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code";
-	private static string apiURL = "https://api.moves-app.com/api/1.1/user/summary/daily/";
+	private static string movesAuthUrl = "https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code";
+	private static string movesApiUrl = "https://api.moves-app.com/api/1.1/user/summary/daily/";
 
-	//public static string ACCESS_TOKEN = "H8rOew4KfvOrAp2jDrxeryX391ANUY6z3xWVKwudt3pZU51fD27q6N0YOt92N18j";
-	public static string ACCESS_TOKEN = "M4gZwNSV6fnxFsMF9tSdJ8B0lylooCxc7ai90OhXtXcrAu6ACls6jfzJnC9E2yCJ";
+	public static string MOVES_ACCESS_TOKEN = "M4gZwNSV6fnxFsMF9tSdJ8B0lylooCxc7ai90OhXtXcrAu6ACls6jfzJnC9E2yCJ";
 
 	//public static string ACCESS_TOKEN = "";
 	public static string CLIENT_ID = "81BlGaldSj5KIjUdz374fcMocXbu6AMC";
@@ -92,23 +91,23 @@ public class APIRequests : MonoBehaviour {
 	}
 
 	public string getAPIString(){
-		if (ACCESS_TOKEN == "")
-		ACCESS_TOKEN = PlayerPrefs.GetString ("ACCESS_TOKEN");
+		if (MOVES_ACCESS_TOKEN == "")
+		MOVES_ACCESS_TOKEN = PlayerPrefs.GetString ("MOVES_ACCESS_TOKEN");
 
 		dateString = dateObj.getCurrentDateString ();
-		return apiURL + dateString + "?access_token=" + ACCESS_TOKEN;
+		return movesApiUrl + dateString + "?access_token=" + MOVES_ACCESS_TOKEN;
 	}
 
 	IEnumerator getToken(){
 		
 		Debug.Log("getToken is Called!");
 
-		authURL = getAuthString ();
+		movesAuthUrl = getAuthString ();
 
 		WWWForm form = new WWWForm ();
 
 		form.AddField ("some field","some data");
-		WWW w = new WWW (authURL, form);
+		WWW w = new WWW (movesAuthUrl, form);
 		yield return w;
 
 		if (!string.IsNullOrEmpty(w.error)) {
@@ -125,17 +124,17 @@ public class APIRequests : MonoBehaviour {
 
 	public string getAuthString(){
 		CODE = PlayerPrefs.GetString("CODE");
-		return authURL + "&code=" + CODE + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&redirect_uri=" + REDIRECT_URI;
+		return movesAuthUrl + "&code=" + CODE + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&redirect_uri=" + REDIRECT_URI;
 	}
 
 	public void storeToken(WWW w){
 		Debug.Log("store Token is called!");
 		string tokenString = parseToken (w.text);
 		
-		PlayerPrefs.SetString ("ACCESS_TOKEN", tokenString);
+		PlayerPrefs.SetString ("MOVES_ACCESS_TOKEN", tokenString);
 
-		ACCESS_TOKEN = tokenString;
-		Debug.Log (ACCESS_TOKEN);
+		MOVES_ACCESS_TOKEN = tokenString;
+		Debug.Log (MOVES_ACCESS_TOKEN);
 		Debug.Log ("This is the access token: ^^");
 	}
 

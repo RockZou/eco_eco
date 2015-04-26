@@ -15,11 +15,14 @@ public class PostImage:MonoBehaviour{
 	public string CloudSightAPIkey = "eDdEhEKOVJznJRlx-qXwiA";
 	public string CloudSightResponseUrl = "http://api.cloudsightapi.com/image_responses/";
 
+	JSONImageKeywordsObject theObj;
+	
 	JSONNode N;
 	Text displayText;
 	Text DebugText;
 	CamDisplay camDisplay;
-
+	JSONImageKeywordsObject jsonImageKeywordsObj;
+	
 	bool inProgress;
 
 	// Use this for initialization
@@ -27,6 +30,7 @@ public class PostImage:MonoBehaviour{
 		displayText = GameObject.Find ("DisplayText").GetComponent<Text> ();
 		DebugText = GameObject.Find ("DebugText").GetComponent<Text>();
 		camDisplay = GameObject.Find("CameraRawImage").GetComponent<CamDisplay>();
+		jsonImageKeywordsObj = GameObject.Find ("JSONImageKeywordsObject").GetComponent<JSONImageKeywordsObject>();
 
 		inProgress = false;
 		//sendImageToCloudSight ();
@@ -100,7 +104,6 @@ public class PostImage:MonoBehaviour{
 		N = SimpleJSON.JSON.Parse (responseString);
 		
 		Debug.Log(N["status"]);
-		displayText.text = "The Status is " + N ["status"];
 		string statusString = N["status"];
 		Debug.Log ("before while");
 		while (statusString!="completed") {
@@ -120,11 +123,26 @@ public class PostImage:MonoBehaviour{
 				return false;
 			}
 		}
-		camDisplay.GetComponent<RawImage>().texture= camDisplay.cam;
 
+		onImageRecognitionFinished ();
+	}
+
+	public void onImageRecognitionFinished(){
+
+		camDisplay.GetComponent<RawImage>().texture= camDisplay.cam;
 		inProgress = false;
-		Debug.Log ("after while");
-		displayText.text = "The description is " + N["name"];
+		Debug.Log ("PostImage onImageRecognitinFinished is called");
+
+		string statusString = N ["status"];
+
+		Debug.Log ("statusString is "+ statusString);
+
+		if (statusString == "completed") {
+			Debug.Log ("N['status'] is completed");
+			jsonImageKeywordsObj.onReturnImageKeyword (N ["name"].ToString ());
+		} else {
+			Debug.Log("Image recognition is skipped because it's" + N["reason"]+ "challenge is not verified.");
+		}
 
 	}
 

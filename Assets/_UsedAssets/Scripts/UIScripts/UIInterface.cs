@@ -4,16 +4,9 @@ using System.Collections;
 public class UIInterface : MonoBehaviour {
 
 	public GameObject CameraRawImage;
-	public GameObject APIRequests;
+	public GameObject MovesApiRequests;
 
-
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void Start(){
 	}
 
 	public void startImageRecognitionApi(){

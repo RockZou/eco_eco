@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class WaterBottleChallenge : MonoBehaviour {
 
@@ -8,8 +9,17 @@ public class WaterBottleChallenge : MonoBehaviour {
 	public static int SUCCESS=2;
 	public static int FAILED=3;
 
+
+	public GameObject ImageRecognitionModal_TakePicture;
+	public GameObject ImageRecognitionModal_Waiting;
+	public GameObject ImageRecognitionModal_ChallengeComplete;
+
+	public Text CoconutText;
+
 	public string[] waterBottleDictionary = new string[] {"bottle","steel","metal","thermos","tumbler", "proof", "spill","sports","adidas"};
-	public string[] bottledWaterDictionary = new string[] {"bottled","drinking","al","ain","arwa","aquafina","dasani","evian","nestle","oasis","putrified","volvic","voss"};
+
+	public string[] bottledWaterDictionary = new string[] {"bottled","drinking","al","ain","arwa","aquafina","dasani",
+															"evian","nestle","oasis","putrified","volvic","voss"};
 
 	public int status;
 
@@ -18,6 +28,9 @@ public class WaterBottleChallenge : MonoBehaviour {
 	public void Awake(){
 		status = NOT_STARTED;
 		theOcean = GameObject.Find ("Ocean").GetComponent<OceanController>();
+		//ImageRecognitionModal_TakePicture = GameObject.Find ("ImageRecognitionModal_TakePicture");
+		//ImageRecognitionModal_Waiting = GameObject.Find ("ImageRecognitionModal_Waiting");
+		//ImageRecognitionModal_ChallengeComplete = GameObject.Find ("ImageRecognitionModal_ChallengeComplete");
 
 	}
 
@@ -32,6 +45,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 			for (int j=0; j<bottledWaterDictionary.Length; j++) {
 				if(wordsList[i]== bottledWaterDictionary[j])
 				{
+					Debug.Log("the challenge is failed because" + wordsList[i]);
 					onFailChallenge();
 					return 0;//failed
 				}
@@ -41,6 +55,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 			for (int j=0; j<waterBottleDictionary.Length; j++) {
 				if(wordsList[i]==waterBottleDictionary[j])
 				{
+					Debug.Log("the challenge succeeded because" + wordsList[i]);
 					onCompleteChallenge();
 					return 1;//succeeded
 				}
@@ -51,27 +66,41 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public void onStartChallenge(){
 		status = STARTED;
-		Bridge.ShowCamera ();
 	}
 
 	public void onCompleteChallenge(){
 		status = SUCCESS;
-		Debug.Log ("WaterBottleQuest onCompleteChallenge Called!");
 
+
+		ImageRecognitionModal_Waiting.SetActive (false);
+		ImageRecognitionModal_ChallengeComplete.SetActive (true);
+
+		Debug.Log ("WaterBottleChallenge onCompleteChallenge Called!");
+
+
+		ImageRecognitionModal_TakePicture.SetActive(false);
+	}
+
+	public void giveReward(){
+		
 		//sea level drop by 50, everytime this challenge is completed
 		Vector3 seaLevel = theOcean.transform.position;
-
 		theOcean.changeSeaLevel (seaLevel.y - 50);
 
 		//Coconuts(currency) change to be added
 		/*
 		 * Do the money stuff here 
 		 */
+		CoconutText.text = "400";
 		Debug.Log ("This is doing the money changing stuff.");
 	}
 
 	public void onFailChallenge(){
 		status = FAILED;
-		Debug.Log ("WaterBottleQuest onFailChallenge called!");
+		ImageRecognitionModal_Waiting.SetActive (false);
+
+		CoconutText.text = "90";
+
+		Debug.Log ("WaterBottleChallenge onFailChallenge called!");
 	}
 }

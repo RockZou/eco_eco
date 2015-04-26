@@ -7,7 +7,6 @@ public class CameraMover : MonoBehaviour {
 
 
 	public float speed;
-	public 
 	// Use this for initialization
 	void Start () {
 	

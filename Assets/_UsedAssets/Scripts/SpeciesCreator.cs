@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class SpeciesCreator : MonoBehaviour {
 	
-	
+
 	public GameObject animalPrefab; 
 	public List<GameObject> treePrefabList = new List<GameObject>();// assign in inspector
 	public List<GameObject> obstacleClones = new List<GameObject>();
@@ -26,9 +27,9 @@ public class SpeciesCreator : MonoBehaviour {
 		if(Physics.Raycast(cursorRay, out cursorRayInfo, 10000f)){
 		
 			
-			if (Input.GetMouseButtonDown(0) ){
+			if (Input.GetMouseButtonDown(0)&& !EventSystem.current.IsPointerOverGameObject() ){
 				GameObject cloneWall = (GameObject)Instantiate( animalPrefab, cursorRayInfo.point, Quaternion.Euler(0,Random.Range(0,359),0) );
-				obstacleClones.Add(cloneWall);
+				//obstacleClones.Add(cloneWall);
 			}
 //
 //			if (Input.GetMouseButtonDown(2) ){
@@ -36,10 +37,10 @@ public class SpeciesCreator : MonoBehaviour {
 //				obstacleClones.Add(cloneWall);
 //			}
 			
-			if (Input.GetMouseButton(1) ){
+			if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()){
 
 				Vector2 randomPosition = Random.insideUnitCircle;
-				treeType = Random.Range(0,2);
+				treeType = Random.Range(0,4);
 				GameObject cloneWall = (GameObject)Instantiate( treePrefabList[treeType], 
 				                                               (new Vector3( cursorRayInfo.point.x  + randomPosition.x * 10, 
 				             												 cursorRayInfo.point.y , 
