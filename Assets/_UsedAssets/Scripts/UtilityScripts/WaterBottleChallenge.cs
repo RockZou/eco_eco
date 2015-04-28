@@ -16,9 +16,9 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public GameObject CoconutText;
 
-	public string[] waterBottleDictionary = new string[] {"bottle","steel","metal","thermos","tumbler", "proof", "spill","sports","adidas"};
+	string[] waterBottleDictionary = new string[] {"adidas","glass","metal","proof","steel", "spill","sports", "thermos","tumbler"};
 
-	public string[] bottledWaterDictionary = new string[] {"bottled","clear","drinking","al","ain","arwa","aquafina","dasani",
+	string[] bottledWaterDictionary = new string[] {"bottled","clear","drinking","al","ain","arwa","aquafina","dasani",
 															"evian","nestle","oasis","putrified","volvic","voss"};
 
 	public int status;
@@ -41,6 +41,21 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public int onVerify(string[] wordsList){
 
+		Debug.Log ("WaterBottleChallenge onVerify is called");
+		for (int i=0; i<wordsList.Length; i++) 
+			for (int j=0; j<waterBottleDictionary.Length; j++)
+			{
+				Debug.Log("wordlist No." + i + " is "+wordsList[i] + "waterBottleDictionary No." + j + " is "+waterBottleDictionary[j]);
+
+				if(wordsList[i] == waterBottleDictionary[j])
+				{
+					Debug.Log("**************************the challenge succeeded because *************************");
+					Debug.Log(wordsList[i]);
+					onCompleteChallenge();
+					return 1;//succeeded
+				}
+			}
+
 		for (int i=0; i<wordsList.Length; i++) 
 			for (int j=0; j<bottledWaterDictionary.Length; j++) {
 				if(wordsList[i]== bottledWaterDictionary[j])
@@ -51,15 +66,6 @@ public class WaterBottleChallenge : MonoBehaviour {
 				}
 		}
 
-		for (int i=0; i<wordsList.Length; i++) 
-			for (int j=0; j<waterBottleDictionary.Length; j++) {
-				if(wordsList[i]==waterBottleDictionary[j])
-				{
-					Debug.Log("the challenge succeeded because " + wordsList[i]);
-					onCompleteChallenge();
-					return 1;//succeeded
-				}
-		}
 
 		onRetryChallenge ();
 		return -1;//undecided

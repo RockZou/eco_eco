@@ -9,11 +9,13 @@ public class OceanController : MonoBehaviour {
 	Vector3 highestSeaLevel;
 	
 	float risingSpeed=0.1f;
-	
+	public float startingSeaLevel=150;
+
+
 	// Use this for initialization
 	void Start () {
 		targetSeaLevel = transform.position;
-		targetSeaLevel.y = 170;
+		targetSeaLevel.y = startingSeaLevel;
 		
 		highestSeaLevel = targetSeaLevel;
 	}
