@@ -37,14 +37,12 @@ public class PostImage:MonoBehaviour{
 	}
 
 	public void sendImageToCloudSight(){
-		DebugText.text += " sendImageToCloudSight called";
 
 		if (!inProgress) {
-			DebugText.text += " inProgress is false, starting uploadPNG coroutine";
+			Debug.Log("inProgress is false, starting uploadPNG coroutine");
 			inProgress = true;
 			StartCoroutine (UploadPNG ());
 		} else {
-			displayText.text = "an image is being processed! Patience...";
 			Debug.Log("an image is being processed!");
 		}
 	}
@@ -53,8 +51,7 @@ public class PostImage:MonoBehaviour{
 		// We should only read the screen after all rendering is complete
 		yield return new WaitForEndOfFrame();
 
-		
-		DebugText.text += " UploadPNG is called";
+		Debug.Log("UploadPNG is called");
 
 		var tex = new Texture2D (1280,720);
 
@@ -62,7 +59,6 @@ public class PostImage:MonoBehaviour{
 
 		yield return testImage;
 
-		
 		DebugText.text += " www object testImage is returned!";
 
 		Debug.Log ("the image file info is "+testImage.text);
@@ -119,7 +115,12 @@ public class PostImage:MonoBehaviour{
 			
 			if (statusString=="skipped")
 			{
-				displayText.text = "image is skipped because " + N["reason"];
+				Debug.Log("image is skipped because " + N["reason"]);
+				return false;
+			}
+			if (statusString=="timeout")
+			{
+				Debug.Log("timeout");
 				return false;
 			}
 		}

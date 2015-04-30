@@ -15,46 +15,60 @@ public class CamDisplay : MonoBehaviour {
 	public GameObject postImageGameObject;
 
 	PostImage postImage;
-	Text DebugText;
 
 	// Use this for initialization
-	public void Start () {
+	public void Awake () {
 		postImageGameObject.SetActive (true);
 
 		postImage = GameObject.Find("PostImage").GetComponent<PostImage>();
-		DebugText = GameObject.Find ("DebugText").GetComponent<Text> ();;
 
-		Debug.Log ("CamDisplay Start is called");
+		Debug.Log ("CamDisplay Awake is called");
 		image = GetComponent<RawImage>();
+
 		deviceName = WebCamTexture.devices[0].name;
 		
 		cam = new WebCamTexture (deviceName);
-		cam.Play ();
-
+		
+		turnCamearOn ();
+		
 		picture = new Texture2D (cam.width,cam.height);
 
-		image.texture = cam;
-
 	}
-	
-	// Update is called once per frame
-	public void Update () {
 
+	public void OnDisable(){
+
+		Debug.Log ("*****************CamDisplay onDisable is called*********************");
+
+		cam.Stop ();
+	}
+
+	public void turnCamearOn(){
+		cam.Play();			
+		image.texture = cam;
 	}
 
 	public void startImageRecognitionApi(){
-		DebugText.text = "key Pressed";
+		Debug.Log ("CamDisplay StartImageRecognitionApi is called");
+		if (!cam.isPlaying) {
+			turnCamearOn();
+		}
+
+		while (!cam.isPlaying) {
 		
-		picture.SetPixels(GetAllPixels(cam));
-		picture.Apply();
-		
+		}
+
+		picture.SetPixels (GetAllPixels (cam));
+		picture.Apply ();
+	
 		image.texture = picture;
-		
-		File.WriteAllBytes(Application.persistentDataPath+'/'+"test_image.png",picture.EncodeToPNG());
-		Debug.Log("saving png image as test_image.png");
-		DebugText.text +=" saving png image as test_image.png";
-		
-		postImage.sendImageToCloudSight();
+	
+		File.WriteAllBytes (Application.persistentDataPath + '/' + "test_image.png", picture.EncodeToPNG ());
+		Debug.Log ("saving png image as test_image.png");
+
+		cam.Stop ();
+
+		postImage.sendImageToCloudSight ();
+	
 	}
 
 	public Color[] GetAllPixels(WebCamTexture cam){

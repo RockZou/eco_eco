@@ -45,9 +45,7 @@ public class JSONImageKeywordsObject : MonoBehaviour {
 
 		int verifyStatus=-1;
 
-		if (waterBottleChallenge.status == WaterBottleChallenge.STARTED) {
-			verifyStatus = waterBottleChallenge.onVerify (wordsListForName);
-		}
+		verifyStatus = waterBottleChallenge.onVerify (wordsListForName);
 		/*
 		if (airConditionerChallenge.status = airConditionerChallenge.STARTED) {
 			verifyStatus = waterBottleChallenge.onVerify (wordsListForName);

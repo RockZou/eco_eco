@@ -6,15 +6,30 @@ using UnityEngine.EventSystems;
 public class SpeciesCreator : MonoBehaviour {
 	
 
-	public GameObject animalPrefab; 
+	public List<GameObject> animalPrefabList = new List<GameObject>(); 
 	public List<GameObject> treePrefabList = new List<GameObject>();// assign in inspector
 	public List<GameObject> obstacleClones = new List<GameObject>();
-	private int treeType;
 
+	private int treeType;
+	private int animalType;
+
+	bool treeIsSelected=true;
+	Transform oceanTransform;
+
+
+	CoconutNumber coconutNumber;
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("SpeciesCreator Start Called");
+		Debug.Log ("SpeciesCreator Start is called");
+
+		oceanTransform = GameObject.Find ("Ocean").GetComponent<Transform>();
+		coconutNumber = GameObject.Find ("CoconutText").GetComponent<CoconutNumber>();
+
+		treeType = 1;
+		animalType = 0;
+		
+		bool treeIsSelected=true;
 	}
 	
 	// Update is called once per frame
@@ -25,32 +40,62 @@ public class SpeciesCreator : MonoBehaviour {
 		RaycastHit cursorRayInfo = new RaycastHit();
 		
 		if(Physics.Raycast(cursorRay, out cursorRayInfo, 10000f)){
-		
 			
 			if (Input.GetMouseButtonDown(0)&& !EventSystem.current.IsPointerOverGameObject() ){
-				GameObject cloneWall = (GameObject)Instantiate( animalPrefab, cursorRayInfo.point, Quaternion.Euler(0,Random.Range(0,359),0) );
-				//obstacleClones.Add(cloneWall);
+				makeCreature(cursorRayInfo.point);
 			}
-//
-//			if (Input.GetMouseButtonDown(2) ){
-//				GameObject cloneWall = (GameObject)Instantiate( animalPrefab, cursorRayInfo.point, Quaternion.Euler(0,-90f,0) );
-//				obstacleClones.Add(cloneWall);
-//			}
-			
-			if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()){
-
-				Vector2 randomPosition = Random.insideUnitCircle;
-				treeType = Random.Range(0,4);
-				GameObject cloneWall = (GameObject)Instantiate( treePrefabList[treeType], 
-				                                               (new Vector3( cursorRayInfo.point.x  + randomPosition.x * 10, 
-				             												 cursorRayInfo.point.y , 
-				            								                 cursorRayInfo.point.z  + randomPosition.y * 10 )),
-				                                               Quaternion.Euler(0,Random.Range(0,359),0) );
-				obstacleClones.Add(cloneWall);
-			}
-			
 		}
-		
-		
+	}//update
+
+	public void makeCreature(Vector3 location){
+
+		float seaLevel = oceanTransform.position.y;
+		if (location.y<seaLevel){
+			tryMakeCreatureUnderWater();
+			return;
+		}
+
+		int coco = coconutNumber.coconutNum;
+		int treeCost = treePrefabList [treeType].GetComponent<CreatureBehavior> ().cost;
+		int animalCost = animalPrefabList [animalType].GetComponent<CreatureBehavior> ().cost;
+
+		if (treeIsSelected){
+			if (coco>= treeCost)
+			{
+				Instantiate( treePrefabList[treeType],location,Quaternion.Euler(0,Random.Range(0,359),0) );
+				coconutNumber.sub(treeCost);
+			}
+			else
+				notEnoughCoconut();
+		}
+		else{
+			if (coco>= animalCost)
+			{
+				Instantiate( animalPrefabList[animalType], location , Quaternion.Euler(0,Random.Range(0,359),0) );
+				coconutNumber.sub(animalCost);
+			}
+			else 
+				notEnoughCoconut();
+		}
 	}
+
+	public void tryMakeCreatureUnderWater(){
+		Debug.Log ("SpeciesCreator tryMakeCreatureUnderWater is called");
+		Debug.Log ("Can't Create Creatures Under Water!");
+	}
+	public void notEnoughCoconut(){
+		Debug.Log ("SpeciesCreator notEnoughCoconut is called");
+		Debug.Log ("Don't have enough Coconut!");
+	}
+
+	public void setTreeType(int theType){
+		treeType = theType;
+		treeIsSelected = true;
+	}
+	public void setAnimalType(int theType){
+		animalType = theType;
+		treeIsSelected = false;
+	}
+
+
 }

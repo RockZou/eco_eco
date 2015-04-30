@@ -1,0 +1,90 @@
+fileFormatVersion: 2
+guid: e45f2dfd50d96884ca7a1e928ba7f2c8
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: BL_leg01
+    100002: BL_leg02
+    100004: Body
+    100006: BR_leg01
+    100008: BR_leg02
+    100010: En_Frog
+    100012: //RootNode
+    100014: FL_leg
+    100016: FR_leg
+    100018: plan
+    100020: Plan_end
+    400000: BL_leg01
+    400002: BL_leg02
+    400004: Body
+    400006: BR_leg01
+    400008: BR_leg02
+    400010: En_Frog
+    400012: //RootNode
+    400014: FL_leg
+    400016: FR_leg
+    400018: plan
+    400020: Plan_end
+    4300000: En_Frog
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: En_Frog
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
