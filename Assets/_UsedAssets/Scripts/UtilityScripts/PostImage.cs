@@ -18,17 +18,16 @@ public class PostImage:MonoBehaviour{
 	JSONImageKeywordsObject theObj;
 	
 	JSONNode N;
-	Text displayText;
-	Text DebugText;
 	CamDisplay camDisplay;
 	JSONImageKeywordsObject jsonImageKeywordsObj;
 	
 	bool inProgress;
 
+	void Awake(){
+	}
+
 	// Use this for initialization
 	void Start () {
-		displayText = GameObject.Find ("DisplayText").GetComponent<Text> ();
-		DebugText = GameObject.Find ("DebugText").GetComponent<Text>();
 		camDisplay = GameObject.Find("CameraRawImage").GetComponent<CamDisplay>();
 		jsonImageKeywordsObj = GameObject.Find ("JSONImageKeywordsObject").GetComponent<JSONImageKeywordsObject>();
 
@@ -59,12 +58,7 @@ public class PostImage:MonoBehaviour{
 
 		yield return testImage;
 
-		DebugText.text += " www object testImage is returned!";
-
 		Debug.Log ("the image file info is "+testImage.text);
-
-		
-		DebugText.text += " the image file info is" +testImage.text;
 
 		testImage.LoadImageIntoTexture (tex);
 

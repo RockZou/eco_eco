@@ -29,7 +29,7 @@ public class SpeciesCreator : MonoBehaviour {
 		treeType = 1;
 		animalType = 0;
 		
-		bool treeIsSelected=true;
+		treeIsSelected=true;
 	}
 	
 	// Update is called once per frame
@@ -41,7 +41,7 @@ public class SpeciesCreator : MonoBehaviour {
 		
 		if(Physics.Raycast(cursorRay, out cursorRayInfo, 10000f)){
 			
-			if (Input.GetMouseButtonDown(0)&& !EventSystem.current.IsPointerOverGameObject() ){
+			if (Input.GetMouseButtonUp(0)&& !EventSystem.current.IsPointerOverGameObject() ){
 				makeCreature(cursorRayInfo.point);
 			}
 		}

@@ -29,7 +29,7 @@ public class MovesAPIRequests : MonoBehaviour {
 
 
 	public void Awake(){
-		Debug.Log ("APIRequests Awake called");
+		Debug.Log ("MovesAPIRequests Awake called");
 
 		if (PlayerPrefs.GetString("CLIENT_ID")=="")
 			PlayerPrefs.SetString("CLIENT_ID",CLIENT_ID);
@@ -37,11 +37,15 @@ public class MovesAPIRequests : MonoBehaviour {
 		if (PlayerPrefs.GetString("CLIENT_SECRET")=="")
 			PlayerPrefs.SetString("CLIENT_SECRET",CLIENT_SECRET);
 
+		if (MOVES_ACCESS_TOKEN == "") {
+			Debug.Log("MOVES_ACCESS_TOKEN is empty, requesting one from playerPrefs.");
+			MOVES_ACCESS_TOKEN = PlayerPrefs.GetString ("MOVES_ACCESS_TOKEN");
+		}
 	}
 
 	public void Start(){
 		
-		Debug.Log ("APIRequests Start called");
+		Debug.Log ("MovesAPIRequests Start called");
 		
 		jsonDataObj = GameObject.Find ("JSONDataObject").GetComponent<JSONDataObject> ();
 		JSONData = jsonDataObj.JSONData;
@@ -50,14 +54,13 @@ public class MovesAPIRequests : MonoBehaviour {
 	}
 
 	public void callGetData(){
-		Debug.Log("callGetData");
+		Debug.Log("MovesAPIRequests callGetData is called");
 		StartCoroutine (getData ());
-		Debug.Log("getData called");
 	}
 	
 	public void callGetToken () {
 		Debug.Log("callGetToken is Called!");
-		StartCoroutine (getToken ());		
+		StartCoroutine (getToken ());	
 	}
 
 	IEnumerator getData(){
@@ -72,12 +75,11 @@ public class MovesAPIRequests : MonoBehaviour {
 
 			SimpleJSON.JSONNode N = JSON.Parse(request.text);
 			var newJSONObj = N[0];
+
 			storeDataObj(newJSONObj);
 
 			Debug.Log(newJSONObj);
 			Debug.Log("^^^^This is the data ^^^^");
-			Debug.Log(newJSONObj["date"]);
-			Debug.Log("^^^^This is the N['date'] ^^^^");
 
 		}else{
 			Debug.Log("WWW error: " + request.error);
@@ -91,8 +93,12 @@ public class MovesAPIRequests : MonoBehaviour {
 	}
 
 	public string getAPIString(){
-		if (MOVES_ACCESS_TOKEN == "")
-		MOVES_ACCESS_TOKEN = PlayerPrefs.GetString ("MOVES_ACCESS_TOKEN");
+		Debug.Log("MovesAPIRequests getAPIString is Called!");
+
+		if (MOVES_ACCESS_TOKEN == "") {
+			Debug.Log("MOVES_ACCESS_TOKEN is empty, requesting one from playerPrefs.");
+			MOVES_ACCESS_TOKEN = PlayerPrefs.GetString ("MOVES_ACCESS_TOKEN");
+		}
 
 		dateString = dateObj.getCurrentDateString ();
 		return movesApiUrl + dateString + "?access_token=" + MOVES_ACCESS_TOKEN;
@@ -100,7 +106,7 @@ public class MovesAPIRequests : MonoBehaviour {
 
 	IEnumerator getToken(){
 		
-		Debug.Log("getToken is Called!");
+		Debug.Log("MovesAPIRequests getToken is Called!");
 
 		movesAuthUrl = getAuthString ();
 
@@ -134,6 +140,7 @@ public class MovesAPIRequests : MonoBehaviour {
 		PlayerPrefs.SetString ("MOVES_ACCESS_TOKEN", tokenString);
 
 		MOVES_ACCESS_TOKEN = tokenString;
+
 		Debug.Log (MOVES_ACCESS_TOKEN);
 		Debug.Log ("This is the access token: ^^");
 	}

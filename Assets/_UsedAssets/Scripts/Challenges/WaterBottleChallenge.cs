@@ -12,7 +12,13 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public GameObject ImageRecognitionModal_TakePicture;
 	public GameObject ImageRecognitionModal_Waiting;
+	public GameObject ImageRecognitionModal_Waiting2;
+
 	public GameObject ImageRecognitionModal_ChallengeComplete;
+	public GameObject ImageRecognitionModal_FailedChallenge;
+	public GameObject ImageRecognitionModal_IsThisCorrect;
+
+	public AudioSource achievement;
 
 	public GameObject CoconutText;
 
@@ -65,7 +71,6 @@ public class WaterBottleChallenge : MonoBehaviour {
 				}
 		}
 
-
 		onRetryChallenge ();
 		return -1;//undecided
 	}
@@ -76,7 +81,9 @@ public class WaterBottleChallenge : MonoBehaviour {
 	}
 
 	public void onRetryChallenge(){
+		Debug.Log ("WaterBottleChallege onRetryChallenge is called");
 		ImageRecognitionModal_Waiting.SetActive (false);
+		onStartChallenge ();
 	}
 
 	public void onCompleteChallenge(){
@@ -92,7 +99,10 @@ public class WaterBottleChallenge : MonoBehaviour {
 	}
 
 	public void giveReward(){
-		
+		Debug.Log ("WaterBottleChallenge giveReward is called");
+
+		achievement.Play ();
+
 		//sea level drop by 50, everytime this challenge is completed
 		Vector3 seaLevel = theOcean.transform.position;
 		theOcean.changeSeaLevel (seaLevel.y - 50);
@@ -103,7 +113,20 @@ public class WaterBottleChallenge : MonoBehaviour {
 		 */
 		
 		CoconutText.GetComponent<CoconutNumber>().add (300);
-		Debug.Log ("This is doing the money changing stuff.");
+	}
+
+	public void givePunishment(){
+
+		ImageRecognitionModal_Waiting.SetActive (false);
+
+		CoconutText.GetComponent<CoconutNumber>().sub (20);
+		
+		Vector3 seaLevel = theOcean.transform.position;
+		theOcean.changeSeaLevel (seaLevel.y + 10);
+		
+		ImageRecognitionModal_TakePicture.SetActive (false);
+		ImageRecognitionModal_FailedChallenge.SetActive (true);
+
 	}
 
 	public void onFailChallenge(){
@@ -111,12 +134,8 @@ public class WaterBottleChallenge : MonoBehaviour {
 		status = FAILED;	
 		CamDisplay.GetComponent<CamDisplay>().cam.Stop();
 
+		givePunishment ();
 
-		ImageRecognitionModal_Waiting.SetActive (false);
-
-		CoconutText.GetComponent<CoconutNumber>().sub (10);
-
-		ImageRecognitionModal_TakePicture.SetActive (false);
 		Debug.Log ("WaterBottleChallenge onFailChallenge called!");
 	}
 }

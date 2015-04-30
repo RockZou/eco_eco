@@ -6,7 +6,6 @@ public class CreatureUnderwaterChecker : MonoBehaviour {
 
 	GameObject theOcean;
 	Vector3 seaPostions;
-	Vector3 creaturePositions;
 
 	int underwaterCount;
 
@@ -21,7 +20,6 @@ public class CreatureUnderwaterChecker : MonoBehaviour {
 	void Update () {
 	
 		seaPostions = theOcean.transform.position;
-		creaturePositions = transform.position;
 		if (seaPostions.y > transform.position.y) {
 			underwaterCount++;
 		} else {

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CoconutNumber : MonoBehaviour {
 
-	public int coconutNum = 100;
+	public int coconutNum = 500;
 
 	public void Awake(){
 		GetComponent<Text> ().text = coconutNum.ToString();
