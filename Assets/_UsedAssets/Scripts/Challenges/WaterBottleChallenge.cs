@@ -17,6 +17,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 	public GameObject ImageRecognitionModal_ChallengeComplete;
 	public GameObject ImageRecognitionModal_FailedChallenge;
 	public GameObject ImageRecognitionModal_IsThisCorrect;
+	public GameObject TextBox;
 
 	public AudioSource achievement;
 
@@ -24,7 +25,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public GameObject CamDisplay;
 
-	string[] waterBottleDictionary = new string[] {"adidas","glass","metal","proof","purple","steel", "spill","silver", "sports", "thermos","tumbler"};
+	string[] waterBottleDictionary = new string[] {"adidas","aluminum","glass","metal","proof","purple","reusable","steel", "spill","silver", "sports", "thermos","tumbler"};
 
 	string[] bottledWaterDictionary = new string[] {"bottled","clear","drinking","al","ain","arwa","aquafina","dasani",
 															"evian","nestle","oasis","putrified","volvic","voss"};
@@ -83,6 +84,14 @@ public class WaterBottleChallenge : MonoBehaviour {
 	public void onRetryChallenge(){
 		Debug.Log ("WaterBottleChallege onRetryChallenge is called");
 		ImageRecognitionModal_Waiting.SetActive (false);
+		TextBox.GetComponent<TextBox> ().setText ("The image isn't very clear... Plase try again!|warning");
+		onStartChallenge ();
+	}
+
+	public void onRetryChallenge(string ErrorMessage){
+		Debug.Log ("WaterBottleChallege onRetryChallenge is called");
+		ImageRecognitionModal_Waiting.SetActive (false);
+		TextBox.GetComponent<TextBox> ().setText ("Something is wrong...("+ErrorMessage+") Plase try again!|warning");
 		onStartChallenge ();
 	}
 
@@ -93,7 +102,7 @@ public class WaterBottleChallenge : MonoBehaviour {
 		ImageRecognitionModal_ChallengeComplete.SetActive (true);
 
 		Debug.Log ("WaterBottleChallenge onCompleteChallenge Called!");
-
+		TextBox.GetComponent<TextBox> ().setText ("You completed the challenge! Keep using the plastic bottle to keep the sea level from rising!|reward");
 
 		ImageRecognitionModal_TakePicture.SetActive(false);
 	}
@@ -131,7 +140,10 @@ public class WaterBottleChallenge : MonoBehaviour {
 
 	public void onFailChallenge(){
 		Debug.Log ("WaterBottleChallenge onFailChallenge is called");
-		status = FAILED;	
+		status = FAILED;
+
+		TextBox.GetComponent<TextBox> ().setText ("You failed the challenge! The picture is not a reusable water bottle!|warning");
+
 		CamDisplay.GetComponent<CamDisplay>().cam.Stop();
 
 		givePunishment ();

@@ -25,7 +25,11 @@ public class JSONImageKeywordsObject : MonoBehaviour {
 
 		verifyChallenges ();
 	}
-	
+
+	public void onReturnError(string ErrorMessage){
+		waterBottleChallenge.onRetryChallenge (ErrorMessage);
+	}
+
 	public string[] getWordsList(string nameString){
 
 		string[] theWordsList = nameString.Split (' ');

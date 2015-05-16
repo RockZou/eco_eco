@@ -5,6 +5,8 @@ public class CreatureUnderwaterChecker : MonoBehaviour {
 
 
 	GameObject theOcean;
+	GameObject TextBox;
+
 	Vector3 seaPostions;
 
 	int underwaterCount;
@@ -12,6 +14,7 @@ public class CreatureUnderwaterChecker : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		theOcean = GameObject.Find("Ocean");
+		TextBox = GameObject.Find ("TextBox");
 		seaPostions = theOcean.transform.position;
 		underwaterCount = 0;
 	}
@@ -26,7 +29,11 @@ public class CreatureUnderwaterChecker : MonoBehaviour {
 			underwaterCount = 0;
 		}
 		if (underwaterCount > 20) {
+			Debug.Log("This object is destroyed becaouse of water: " + this.gameObject.name);
+			TextBox.GetComponent<TextBox> ().setText ("Your creatures are being destroyed by the rising sea level!|warning");
+
 			GameObject.Destroy(this.gameObject);
+			
 		}
 
 	}

@@ -15,6 +15,7 @@ public class PostImage:MonoBehaviour{
 	public string CloudSightAPIkey = "eDdEhEKOVJznJRlx-qXwiA";
 	public string CloudSightResponseUrl = "http://api.cloudsightapi.com/image_responses/";
 
+
 	JSONImageKeywordsObject theObj;
 	
 	JSONNode N;
@@ -137,6 +138,7 @@ public class PostImage:MonoBehaviour{
 			jsonImageKeywordsObj.onReturnImageKeyword (N ["name"]);
 		} else {
 			Debug.Log("Image recognition is skipped because it's" + N["reason"]+ "challenge is not verified.");
+			jsonImageKeywordsObj.onReturnError(N["reason"]);
 		}
 
 	}

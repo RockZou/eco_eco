@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class OnBoardingChallenge : MonoBehaviour {
 
-	
-
 	public int rewardCoconut = 100;
 	public int rewardSealevelDrop = 50;
+	public GameObject TextBox;
 
 	public AudioSource achievement;
 
@@ -19,6 +19,7 @@ public class OnBoardingChallenge : MonoBehaviour {
 	}
 
 	public void giveReward(){
+		TextBox.GetComponent<TextBox> ().setText ("Congratualations!Complete more challenges to build your eco-system and save the planet!|reward");;
 
 		Debug.Log ("OnBoardingChallenge give reward");
 		achievement.Play ();
